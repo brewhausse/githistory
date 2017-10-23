@@ -71,7 +71,13 @@ function showHistory() {
 
             if (commits.length > 0) {
                 _.forEach(commits, function (commit, index) {
-                    console.log("Date: " + commit.authorDate + " - " + commit.authorName + " - " + commit.subject);
+                    var display = {
+                        project: directory,
+                        author: commit.authorName,
+                        date: commit.authorDate,
+                        message: commit.subject
+                    }
+                    console.log(JSON.stringify(display, null, 4));
                 });
             }
         }
