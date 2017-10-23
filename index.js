@@ -1,6 +1,7 @@
 const fs = require('fs');
 const gitlog = require('gitlog');
 const _ = require('lodash');
+const dateformat = require('dateformat');
 var argv = require('minimist')(process.argv.slice(2));
 
 function validateArgs() {
@@ -71,6 +72,7 @@ function showHistory() {
 
             if (commits.length > 0) {
                 _.forEach(commits, function (commit, index) {
+
                     var display = {
                         project: directory,
                         author: commit.authorName,
@@ -93,6 +95,49 @@ function showHistory() {
     });
 }
 
+function getCommits() {
+    
+        // Get list of all repos
+        var directories = getDirectories(options.repos);
+    
+        var commitHistory = [];
+
+        _.forEach(directories, function (directory) {
+            var repoPath = options.repos + "/" + directory;
+    
+            try {
+                optionsGit.repo = repoPath;
+                var commits = gitlog(optionsGit);
+                //console.log(directory + " (" + commits.length + " commits since " + options.sinceDate + " ) " + "****************")
+    
+                if (commits.length > 0) {
+                    _.forEach(commits, function (commit, index) {
+                        var summary = {
+                            project: directory,
+                            author: commit.authorName,
+                            date:  dateformat(commit.authorDate, "shortDate"),
+                            time: dateformat(commit.authorDate, "shortTime"),
+                            message: commit.subject
+                        }
+
+                        commitHistory.push(summary);
+                        //console.log(JSON.stringify(summary, null, 4));
+                    });
+                }
+            }
+            catch (e) {
+                if (IsNotRepoError(e)) {
+                    //console.log(directory + " is not a git repository...")
+                } else {
+                    throw e
+                }
+            }
+    
+        });
+
+        return commitHistory;
+    }  
+
 function IsNotRepoError(error) {
     return error.message.indexOf("Not a git repository") > -1
 }
@@ -103,7 +148,23 @@ function getDirectories(path) {
     });
 }
 
-
 if (validateArgs()) {
-    showHistory();
+
+    //showHistory();
+    var commits = getCommits();
+    //var sorted = _.sortBy(commits, 'authorDate')
+    var grouped = _.groupBy(commits, 'date');
+    _.forEach(grouped, function (group) {
+        console.log(options.author + " - " + group[0].date + " **********************************************");
+
+        _.forEach(group, function(commit){
+            console.log("  " + commit.time);
+            console.log("    " + commit.project);
+            console.log("    " + commit.message);
+        });
+
+        console.log("");
+    });
 }
+
+
