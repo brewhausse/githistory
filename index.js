@@ -115,7 +115,7 @@ function getCommits() {
                         var summary = {
                             project: directory,
                             author: commit.authorName,
-                            date:  dateformat(commit.authorDate, "shortDate"),
+                            date:  dateformat(commit.authorDate, "mm/dd/yyyy"),
                             time: dateformat(commit.authorDate, "shortTime"),
                             message: commit.subject
                         }
@@ -152,8 +152,9 @@ if (validateArgs()) {
 
     //showHistory();
     var commits = getCommits();
-    //var sorted = _.sortBy(commits, 'authorDate')
-    var grouped = _.groupBy(commits, 'date');
+    var sorted = _.sortBy(commits, ['date', 'time']).reverse();
+    var grouped = _.groupBy(sorted, 'date');
+
     _.forEach(grouped, function (group) {
         console.log(options.author + " - " + group[0].date + " **********************************************");
 
