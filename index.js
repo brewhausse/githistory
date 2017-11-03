@@ -44,6 +44,7 @@ var options = {
 
 var optionsGit =
     {
+        all: true,
         number: options.maxReturn
         , since: options.sinceDate
         , author: options.author
@@ -118,16 +119,20 @@ function getCommits() {
     
                 if (commits.length > 0) {
                     _.forEach(commits, function (commit, index) {
-                        var summary = {
-                            project: directory,
-                            author: commit.authorName,
-                            date:  dateformat(commit.authorDate, "mm/dd/yyyy"),
-                            time: dateformat(commit.authorDate, "shortTime"),
-                            message: commit.subject
-                        }
 
-                        commitHistory.push(summary);
-                        //console.log(JSON.stringify(summary, null, 4));
+                        if (commit.subject.indexOf("Merge") == -1) {
+
+                            var summary = {
+                                project: directory,
+                                author: commit.authorName,
+                                date: dateformat(commit.authorDate, "mm/dd/yyyy"),
+                                time: dateformat(commit.authorDate, "shortTime"),
+                                message: commit.subject
+                            }
+
+                            commitHistory.push(summary);
+                            //console.log(JSON.stringify(summary, null, 4));
+                        }
                     });
                 }
             }
@@ -156,6 +161,8 @@ function getDirectories(path) {
 
 if (validateArgs()) {
 
+    console.log("Git history for " + options.author + " since " + dateformat(options.sinceDate, "mm/dd/yyyy") + ":");
+
     //showHistory();
     var commits = getCommits();
     var sorted = _.sortBy(commits, ['date', 'time']).reverse();
@@ -165,8 +172,7 @@ if (validateArgs()) {
         console.log(options.author + " - " + group[0].date + " **********************************************");
 
         _.forEach(group, function(commit){
-            console.log("  " + commit.time);
-            console.log("    " + commit.project);
+            console.log("  " + commit.time + "|" + commit.project);
             console.log("    " + commit.message);
         });
 
