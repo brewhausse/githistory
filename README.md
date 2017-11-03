@@ -1,4 +1,4 @@
-## githistory
+# githistory
 
 A simple Node.js wrapper around gitlog npm module that will search through all local git repositories in a given directory and print to the console a git history of commit dates and messages in chronological order for a given commit author and date.
 
