@@ -4,9 +4,9 @@ A simple wrapper around gitlog npm module that will search through all local git
 
 ### Parameters
 
-* -r: Path to directory containing repo directories.
-* -a: Commit author's full name use for filtering.
-* -d: Number representing the number of days to include in the search.  ie, 7 would search the previous week, 14 would search the previous 2 weeks of git history.
+* -r: Path to parent directory containing repo directories.
+* -a: Commit author's full name to filter.
+* -d: Number of days to include in the search. ie, 7 would search the previous week, 14 would search the previous 2 weeks.
 * -n: Max number of commits to return per repository.
 
 ### Example Usage
