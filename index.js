@@ -15,7 +15,7 @@ function validateArgs() {
         msg += "Missing -a: Commit author's full name.\n";
     } 
     if (argv.d === undefined) {
-        msg += "Missing -d: Only search commits since this date.\n";
+        msg += "Missing -d: Number of days subtracted from today because the start date to filter.\n";
     } 
     if (argv.n === undefined) {
         msg += "Missing -n: Max number of commits to return per repository.\n";
@@ -29,10 +29,16 @@ function validateArgs() {
 }
 
 
+var today = new Date();
+
 var options = {
     repos: argv.r,
     author: argv.a,
-    sinceDate: argv.d,
+    sinceDate: new Date(
+        today.getFullYear(), 
+        today.getMonth(), 
+        today.getDate() - argv.d
+    ),
     maxReturn: argv.n
 }
 
