@@ -27,7 +27,7 @@ will result in the following being printed to console:
     
     Marshall Hauser - 11/01/2017 **********************************************
       3:30 PM|vt_emailparser
-        Added a new builld property group and forgot to add the <TeamCityBuild>false</TeamCityBuild>
+        Added a new build property group and forgot to add the <TeamCityBuild>false</TeamCityBuild>
       3:22 PM|vt_tourpublish
         Auto increment the build number.
       3:09 PM|vt_tourpublish
