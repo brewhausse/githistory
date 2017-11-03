@@ -10,6 +10,7 @@
   "author": "Marshall Hauser",
   "license": "ISC",
   "dependencies": {
+    "dateformat": "^3.0.2",
     "gitlog": "^3.1.0",
     "lodash": "^4.17.4",
     "minimist": "^1.2.0"

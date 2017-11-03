@@ -5,7 +5,10 @@
                 "type": "node",
                 "request": "launch",
                 "name": "Launch Program",
-                "program": "${workspaceRoot}\\index.js"
+                "program": "${workspaceRoot}/index.js",
+                "args": [
+                    "-r", "C:/Users/mhaus/Source/Repos", "-a", "Marshall Hauser", "-d",  "7", "-n", " 1000"
+                ]
             }
         ]
     }
